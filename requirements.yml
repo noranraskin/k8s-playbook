@@ -1,0 +1,8 @@
+---
+roles:
+  - name: geerlingguy.swap
+  - name: geerlingguy.docker
+  - name: geerlingguy.kubernetes
+  - name: geerlingguy.helm
+  - name: nvidia.nvidia_driver
+  - name: nvidia.nvidia_docker

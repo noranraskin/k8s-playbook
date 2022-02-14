@@ -1,0 +1,59 @@
+- hosts: all
+
+  vars:
+    swap_file_path: /swap.img
+    swap_file_state: absent
+    docker_users:
+      - "{{ ansible_user_id }}"
+    docker_install_compose: false
+    nvidia_driver_ubuntu_branch: "470"
+    kubernetes_version: '1.23'
+    helm_repos:
+      - name: nvdp
+        url: https://nvidia.github.io/k8s-device-plugin
+      # - name: prometheus-community
+      #   url: https://prometheus-community.github.io/helm-charts
+      - name: traefik
+        url: https://helm.traefik.io/traefik
+    helm_charts:
+      - name: nvidia-device-plugin
+        namespace: kube-system
+        chart_ref: nvdp/nvidia-device-plugin
+      # - name: prometheus
+      #   namespace: monitoring
+      #   chart_ref: prometheus-community/kube-prometheus-stack
+      - name: traefik
+        namespace: kube-system
+        chart_ref: traefik/traefik
+    apt_packages:
+      - nfs-common
+      - clinfo
+      - python3-pip
+      - libnvidia-compute-470-server
+      - libnvidia-decode-470-server
+      - libnvidia-encode-470-server
+
+  roles:
+    - role: nvidia.nvidia_driver
+      tags: ['nvidia']
+      become: true
+    - role: geerlingguy.swap
+      become: true
+      tags: ['swap', 'kubernetes']
+    - role: geerlingguy.docker
+      become: true
+      tags: ['kubernetes']
+    - role: geerlingguy.kubernetes
+      become: true
+      tags: ['kubernetes']
+    - role: geerlingguy.helm
+      become: true
+      tags: ['helm']
+    - role: nvidia.nvidia_docker
+      tags: ['nvidia']
+      become: true
+
+  tasks:
+    - import_tasks: tasks/apt.yaml
+    - import_tasks: tasks/helm.yaml
+
