@@ -1,0 +1,5 @@
+---
+- name: Make sure pip packages are present
+  pip:
+    name: "{{ item }}"
+  loop: "{{ pip_packages }}"
