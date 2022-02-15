@@ -10,6 +10,11 @@
     state: latest
   become: true
   loop: "{{ apt_packages }}"
+- name: Ensure all packages are up to date
+  apt:
+    name: "*"
+    state: latest
+  become: true
 - name: Remove useless packages from the cache
   apt:
     autoclean: yes
