@@ -6,19 +6,20 @@
     docker_users:
       - "{{ ansible_user_id }}"
     docker_install_compose: false
-    nvidia_driver_ubuntu_branch: "470"
-    kubernetes_version: '1.23'
+    nvidia_driver_ubuntu_branch: "510"
+    kubernetes_version: '1.25'
+    kubernetes_allow_pods_on_master: true
     helm_repos:
-      - name: nvdp
-        url: https://nvidia.github.io/k8s-device-plugin
+      # - name: nvdp
+      #   url: https://nvidia.github.io/k8s-device-plugin
       # - name: prometheus-community
       #   url: https://prometheus-community.github.io/helm-charts
       - name: traefik
         url: https://helm.traefik.io/traefik
     helm_charts:
-      - name: nvidia-device-plugin
-        namespace: kube-system
-        chart_ref: nvdp/nvidia-device-plugin
+      # - name: nvidia-device-plugin
+      #   namespace: kube-system
+      #   chart_ref: nvdp/nvidia-device-plugin
       # - name: prometheus
       #   namespace: monitoring
       #   chart_ref: prometheus-community/kube-prometheus-stack
@@ -26,12 +27,16 @@
         namespace: kube-system
         chart_ref: traefik/traefik
     apt_packages:
+      - nfs-kernel-server
       - nfs-common
       - clinfo
       - python3-pip
-      - libnvidia-compute-470-server
-      - libnvidia-decode-470-server
-      - libnvidia-encode-470-server
+      - btrfs-progs
+      - "libnvidia-compute-{{ nvidia_driver_ubuntu_branch }}-server"
+      - "libnvidia-decode-{{ nvidia_driver_ubuntu_branch }}-server"
+      - "libnvidia-encode-{{ nvidia_driver_ubuntu_branch }}-server"
+      - mosh
+      - haproxy
     pip_packages:
       - kubernetes
 
@@ -58,5 +63,5 @@
   tasks:
     - import_tasks: tasks/apt.yml
     - import_tasks: tasks/pip.yml
-    # - import_tasks: tasks/helm.yml
+    - import_tasks: tasks/helm.yml
 
