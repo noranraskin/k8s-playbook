@@ -5,11 +5,11 @@ Ansible playbook to set up my very own kubernetes cluster with GPU support.
 **Features**:
 - Installs nvidia drivers, docker, k8s (via kubeadm), nvidia docker runtime
 - Disable swap
-- Install some basic helm charts (eg. traefik, nvidia device plugin)
-- Install basic apt packages
+- Install some basic helm charts (eg. traefik)
+- Install basic apt packages (eg. nfs, btrfs, mergerfs, haproxy, mosh)
 
 ## Setting up a node
-Install `ubuntu 20.04 LTS server` on a new node. When going through the install add ssh keys from github (not necessary but makes things easier).  
+Install `ubuntu 22.04 LTS server` on a new node. When going through the install add ssh keys from github (not necessary but makes things easier).  
 No need to install any additional software.
 
 ## Preparations

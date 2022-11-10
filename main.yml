@@ -6,8 +6,7 @@
     docker_users:
       - "{{ ansible_user_id }}"
     docker_install_compose: false
-    nvidia_driver_ubuntu_branch: "510"
-    kubernetes_version: '1.25'
+    nvidia_driver_branch: "510"
     kubernetes_allow_pods_on_master: true
     helm_repos:
       # - name: nvdp
@@ -32,11 +31,12 @@
       - clinfo
       - python3-pip
       - btrfs-progs
-      - "libnvidia-compute-{{ nvidia_driver_ubuntu_branch }}-server"
-      - "libnvidia-decode-{{ nvidia_driver_ubuntu_branch }}-server"
-      - "libnvidia-encode-{{ nvidia_driver_ubuntu_branch }}-server"
+      - "libnvidia-compute-{{ nvidia_driver_branch }}-server"
+      - "libnvidia-decode-{{ nvidia_driver_branch }}-server"
+      - "libnvidia-encode-{{ nvidia_driver_branch }}-server"
       - mosh
       - haproxy
+      - mergerfs
     pip_packages:
       - kubernetes
 
